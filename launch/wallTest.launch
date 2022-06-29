@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+	<node pkg="diplom" type="wallTest.py" name="map_creater" output="screen">
+		<param name="map_name" value="map_willowgarage_5_6" type="str" />
+		<param name="gazebo_model_name" value="lidar" type="str" />
+		<param name="reference_frame" value="willowgarage" type="str" />
+	</node>
+
+</launch>
+
+<!-- x: [0 - 55] -->
+<!-- y: [0 - 45] -->

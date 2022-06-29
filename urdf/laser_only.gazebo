@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<!-- 
+This is the gazebo urdf description of a Pioneer 3DX.
+Copyright (C) 2013 Rafael Berkvens rafael.berkvens@uantwerpen.be
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ -->
+<robot>
+	<!-- lms100 -->
+	<gazebo reference="lms100">
+		<sensor type="ray" name="head_hokuyo_sensor">
+			<pose>0 0 0 0 0 0</pose>
+			<visualize>true</visualize>
+			<update_rate>20</update_rate>
+			<ray>
+				<scan>
+					<horizontal>
+						<samples>1000</samples>
+						<resolution>1</resolution>
+						<min_angle>-3.14</min_angle>
+						<max_angle>3.14</max_angle>
+					</horizontal>
+				</scan>
+				<range>
+					<min>0.0</min>
+					<max>20.0</max>
+					<resolution>0.01</resolution>
+				</range>
+				<noise>
+					<type>gaussian</type>
+					<!-- Noise parameters based on published spec for Hokuyo laser achieving 
+						"+-30mm" accuracy at range < 10m. A mean of 0.0m and stddev of 0.01m will 
+						put 99.7% of samples within 0.03m of the true reading. -->
+					<mean>0.0</mean>
+					<stddev>0.01</stddev>
+				</noise>
+			</ray>
+			<plugin name="gazebo_ros_head_hokuyo_controller" filename="libgazebo_ros_laser.so">
+				<topicName>laser/scan</topicName>
+				<frameName>lms100</frameName>
+			</plugin>
+		</sensor>
+	</gazebo>
+</robot>

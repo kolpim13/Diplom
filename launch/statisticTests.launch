@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+	<arg name="map_name" value="map_willowgarage_15_20"/>
+	<arg name="gazebo_model_name" value="lidar"/>
+	<arg name="reference_frame" value="willowgarage"/>
+	<arg name="hist_pos_limits" value="60"/>
+	<arg name="hist_orient_limits" value="60"/>
+	<arg name="laser_min" value="0.1"/>
+	<arg name="laser_max" value="20.0"/>
+	<arg name="laser_amount" value="1000"/>
+
+	<node pkg="diplom" type="test_1.py" name="statistic_test_1" output="screen">
+		<!-- Shared params -->
+		<param name="map_name" value="$(arg map_name)" type="str" />
+		<param name="gazebo_model_name" value="$(arg gazebo_model_name)" type="str" />
+		
+		<param name="hist_pos_limits" value="$(arg hist_pos_limits)" type="int" />
+		<param name="hist_orient_limits" value="$(arg hist_orient_limits)" type="int" />
+		
+		<param name="laser_min" value="$(arg laser_min)" type="double" />
+		<param name="laser_max" value="$(arg laser_max)" type="double" />
+		<param name="laser_amount" value="$(arg laser_amount)" type="int" />
+		
+		<!-- unique params -->
+		<param name="stat_name" value="random_1000_points" type="str" />
+		<param name="sample_size" value="1000" type="int" />
+	</node>
+
+</launch>
+
