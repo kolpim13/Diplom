@@ -1,9 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <launch>
 	<node pkg="diplom" type="wallTest.py" name="map_creater" output="screen">
-		<param name="map_name" value="map_willowgarage_5_6" type="str" />
+		<param name="map_name" value="map_willowgarage_10_30" type="str" />
 		<param name="gazebo_model_name" value="lidar" type="str" />
 		<param name="reference_frame" value="willowgarage" type="str" />
+
+		<param name="x_begin" value="10.0" type="double"/>
+		<param name="y_begin" value="10.0" type="double"/>
+		<param name="x_end" value="30.0" type="double"/>
+		<param name="y_end" value="30.0" type="double"/>
+
+		<param name="lowRes" value="0.5" type="double"/>
+		<param name="highRes" value="0.1" type="double"/>
 	</node>
 
 </launch>

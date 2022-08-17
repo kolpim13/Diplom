@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <launch>
 	<node pkg="diplom" type="createMap.py" name="map_creater" output="screen">
-		<param name="map_name" value="map_willowgarage_15_20" type="str" />
+		<param name="map_name" value="map_willowgarage_5_25" type="str" />
 		<param name="gazebo_model_name" value="lidar" type="str" />
 		<param name="reference_frame" value="willowgarage" type="str" />
 		
-		<param name="x_begin" value="15.0" type="double"/>
-		<param name="y_begin" value="15.0" type="double"/>
-		<param name="x_end" value="20.0" type="double"/>
-		<param name="y_end" value="20.0" type="double"/>
+		<param name="x_begin" value="5.0" type="double"/>
+		<param name="y_begin" value="5.0" type="double"/>
+		<param name="x_end" value="25.0" type="double"/>
+		<param name="y_end" value="25.0" type="double"/>
 		
 		<param name="laser_min" value="0.1" type="double"/>
 		<param name="laser_max" value="20.0" type="double"/>

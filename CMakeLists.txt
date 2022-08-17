@@ -11,6 +11,8 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   rospy
   std_msgs
+  geometry_msgs
+  tf
 )
 
 ## System dependencies are found with CMake's conventions
@@ -162,6 +164,7 @@ include_directories(
 catkin_install_python(PROGRAMS
   scripts/createMap.py
   scripts/localization.py
+  scripts/localizationTest.py
   scripts/wallTest.py
   scripts/test_1.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}

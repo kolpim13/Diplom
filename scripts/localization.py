@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 import rospy
-import sys
 import json
 import math
 import time
