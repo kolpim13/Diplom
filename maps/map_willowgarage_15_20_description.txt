@@ -1,1 +1,0 @@
-{"x_begin": 15.0, "x_end": 20.0, "y_begin": 15.0, "y_end": 20.0, "lowRes": 0.5, "lowRes_amount_x": 11, "lowRes_amount_y": 11, "lowRes_amount_total": 121, "highRes": 0.1, "highRes_amount_x": 50, "highRes_amount_y": 50, "highRes_amount_total": 2500}
