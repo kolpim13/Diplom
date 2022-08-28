@@ -10,8 +10,6 @@ import numpy as np
 
 from gazebo_msgs.msg import ModelState
 from sensor_msgs.msg import LaserScan
-
-import wallTest
 #=======================================================================================#
 
 def create_model(pub: rospy.Publisher, name: str, reference: str) -> ModelState:
@@ -29,6 +27,10 @@ def laser_topic_read():
     distances = [round(item, 5) for item in laser.ranges]
 
     return distances
+    
+def laser_get_parameters():
+    laser = rospy.wait_for_message(laser_topic_name, LaserScan)
+    return (laser.range_min, laser.range_max)
 #=======================================================================================#
 
 # PRE PROCESSING
@@ -126,14 +128,7 @@ def raw_data_preprocessing(data, range_min: np.float32, range_max: np.float32):
     return data
 #=======================================================================================#
 
-def laser_get_parameters():
-    laser_topic_name = "/laser/scan"
-    laser = rospy.wait_for_message(laser_topic_name, LaserScan)
-    return (laser.range_min, laser.range_max)
-#=======================================================================================#
-
 # HISTOGRAMS
-
 """
 Compress prepeared raw laser data into positional histogram
 
@@ -272,6 +267,35 @@ def find_region_to_search(map_index: int, radius: int, max_x: int, map_y: int):
             index += 1
 
     return region
+
+"""
+Find the best shifted orient position
+hist: orient histogram of the current position we want apply to our map
+map_orient: 2D np. array with compressed histograms
+map_orient_limit: [int] Represents how many bars do havem orientation histogram 
+map_orient_index: [int] Index on the orient map we want to compare to
+
+return angle in degrees and radians [np.float]
+"""
+def find_orient(hist, map_orient, map_orient_limit: int, map_orient_index: int):
+    degree_per_limit = 360.0 / map_orient_limit
+
+    best_index = 0
+    min_error = float('inf')
+    for shift in range(map_orient_limit):
+        error = 0.0
+        for j in range(map_orient_limit):
+            pos = j + shift
+            pos = pos - map_orient_limit if pos >= map_orient_limit else pos
+            error += abs(map_orient[map_orient_index, pos] - hist[j])
+        if error < min_error:
+            min_error = error
+            best_index = shift
+
+        orient_deg: np.float32 = degree_per_limit * best_index
+        orient_rad: np.float32 = orient_deg * np.pi / 180
+
+    return (orient_deg, orient_rad)
 #=======================================================================================#
 
 if __name__ == '__main__':
@@ -287,7 +311,7 @@ if __name__ == '__main__':
     model_name = rospy.get_param("~gazebo_model_name")
 
     hist_limit_pos = rospy.get_param("~hist_pos_limit")
-    hist_limit_orient = rospy.get_param("~hist_pos_limit")
+    hist_limit_orient = rospy.get_param("~hist_orient_limit")
 
     laser_count = rospy.get_param("~laser_count")
 
@@ -349,15 +373,17 @@ if __name__ == '__main__':
 
         # Approximated position
 
-
+        
         # Orientation calculating    
-            
+        (orient_deg, orient_rad) = find_orient(hist_orient_current, map_orient_high, hist_limit_orient, best_index_high)
 
         # Print all found data for debugging purposes
         rospy.loginfo("Best candidate on low resolution map:")
         rospy.loginfo("x_low = %.5f, y_low = %.5f", best_low[0], best_low[1])
         rospy.loginfo("Best candidate on high resolution map:")
         rospy.loginfo("x_high = %.5f, y_high = %.5f", best_high[0], best_high[1])
+        rospy.loginfo("Orientation is equal")
+        rospy.loginfo("Degrees = %.5f, Radians = %.5f", orient_deg, orient_rad)
     
         rospy.loginfo("This step took %.3f", (time.time() - start_time))
         rospy.loginfo("================================================================")

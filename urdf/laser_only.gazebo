@@ -52,12 +52,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 			</plugin>
 		</sensor>
 
-		<collision name="collider">
+		<!-- <collision name="collider">
 			<geometry>
 				<box>
 					<size>1 1 1</size>
 				</box>
 			</geometry>
-		</collision>
+		</collision> -->
 	</gazebo>
 </robot>

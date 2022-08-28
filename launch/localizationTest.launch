@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <launch>
 	<node pkg="diplom" type="localizationTest.py" name="agent_localization" output="screen" >
-		<param name="map_name" value="map_willowgarage_10_14" type="str" />
+		<param name="map_name" value="map_willowgarage_10_15" type="str" />
 		<param name="gazebo_model_name" value="lidar" type="str" />
 		
 		<param name="hist_pos_limit" value="60" type="int" />

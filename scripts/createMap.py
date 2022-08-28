@@ -1,9 +1,7 @@
 #!/usr/bin/env python
 import rospy
-import sys
 import pathlib
 import json
-import math
 
 from gazebo_msgs.srv import GetModelState
 from gazebo_msgs.msg import ModelState

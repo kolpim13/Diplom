@@ -167,6 +167,8 @@ catkin_install_python(PROGRAMS
   scripts/localizationTest.py
   scripts/wallTest.py
   scripts/test_1.py
+  scripts/statistic.py
+  scripts/run_from_command_line.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 

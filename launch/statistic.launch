@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+	<arg name="map_name" value="map_willowgarage_10_30"/>
+	<arg name="gazebo_model_name" value="lidar"/>
+	<arg name="reference_frame" value="willowgarage"/>
+	<arg name="laser_count" value="1000"/>
+    <arg name="statistic_name" value="1000_points"/>
+    <arg name="points_amount" value="1000"/>
+
+	<node pkg="diplom" type="statistic.py" name="statistic" output="screen">
+		<!-- Shared params -->
+		<param name="map_name" value="$(arg map_name)" type="str" />
+		<param name="gazebo_model_name" value="$(arg gazebo_model_name)" type="str" />
+		<param name="reference_frame" value="$(arg reference_frame)" type="str" />
+
+		<param name="laser_count" value="$(arg laser_count)" type="int" />
+
+		<!-- unique params -->
+		<param name="statistic_name" value="random_1000_points" type="str" />
+		<param name="points_amount" value="1000" type="int" />
+	</node>
+</launch>
