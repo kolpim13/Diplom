@@ -47,6 +47,13 @@ def model_move(model: ModelState, pub: rospy.Publisher, x: float, y: float):
     model.pose.position.z = 0.5
     pub.publish(model)
 
+def model_turn(model: ModelState, pub: rospy.Publisher, phi: float):
+    z = np.sin(phi / 2)
+    w = np.cos(phi / 2)
+    model.pose.orientation.z = z
+    model.pose.orientation.w = w
+    pub.publish(model)
+
 def model_get_pos(model_name: str):
     gms = rospy.ServiceProxy('/gazebo/get_model_state', GetModelState)
     pose = gms(model_name, "")
@@ -106,7 +113,7 @@ def generate_map_void(model: ModelState, pub: rospy.Publisher, file: str, model_
     for i in range(10):
         model_move(model, pub, 0, 0)
         rate.sleep()
-    (real_x, real_y) = model_get_pos(model_name)
+        (real_x, real_y) = model_get_pos(model_name)
 
 def append_to_file(file: str, point, data):
     with open(file, 'a') as jsonfile:
@@ -164,6 +171,47 @@ def move_and_check_if_point_feasible(model: ModelState, pub: rospy.Publisher, po
     if var > admissible_diff:
         return False
     return True
+
+
+"""
+map - path to the real map with raw data
+"""
+def generate_points_for_orient(model: ModelState, pub: rospy.Publisher,
+                    file: str, amount: int, map: str):
+
+    # Read all data from given map one by one
+    with open(map, 'r') as jsonfile:
+        for index in range(amount):
+            # Read line
+            line = jsonfile.readline()
+            json_line = json.loads(line)
+
+            # Get pos
+            point = json_line["pos"]
+            
+            # Check if it is feasible position
+            raw_data = json_line["raw_data"]
+            if raw_data == None:
+                data = None
+                append_to_file(file, point, data)
+                continue
+            
+            # Set random orientation
+            random_orient = 0.0 + np.random.random() * 360.0
+
+            # Move robot model on the needed position and turn it
+            x = point[0]
+            y = point[1]
+            model_move(model, pub, x, y)
+            model_turn(model, pub, random_orient)
+
+            # Get laser values
+            data = laser_topic_read()
+            #data = raw_data_preprocessing(laser_data) # To process all data in the same way (while creating map this is not done)
+
+            # Write this data to a statistic file
+            point = [x, y, random_orient]
+            append_to_file(file, point, data)
 #=======================================================================================#
 
 if __name__ == '__main__':
@@ -204,8 +252,9 @@ if __name__ == '__main__':
 
     # Generate 1000 points and write them into file
     generate_map_void(model, pub_model, PATH_TO_STATISTIC, model_name)
-    generate_points(model, pub_model, PATH_TO_STATISTIC, 
-                    points_amount, x_begin, x_end, y_begin, y_end)
+    # generate_points(model, pub_model, PATH_TO_STATISTIC, 
+    #                 points_amount, x_begin, x_end, y_begin, y_end)
+    generate_points_for_orient(model, pub_model, PATH_TO_STATISTIC, highRes_amount_total, PATH_TO_MAP_HIGH_RES)
 
     rospy.loginfo("The end!")
     rospy.loginfo("================================================================")

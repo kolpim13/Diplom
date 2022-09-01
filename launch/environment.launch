@@ -5,7 +5,7 @@
 		<arg name="world_name" value="$(find diplom)/worlds/laser.world"/>
 		<arg name="paused" default="false" />
 		<arg name="use_sim_time" default="true" />
-		<arg name="gui" value="false"/>
+		<arg name="gui" value="true"/>
 		<arg name="headless" default="false" />
 		<arg name="debug" default="false" />
 	</include>

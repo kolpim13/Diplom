@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <launch>
-	<arg name="map_name" value="map_willowgarage_10_30"/>
+	<arg name="map_name" value="map_willowgarage_10_15"/>
 	<arg name="gazebo_model_name" value="lidar"/>
 	<arg name="reference_frame" value="willowgarage"/>
 	<arg name="laser_count" value="1000"/>
@@ -16,7 +16,7 @@
 		<param name="laser_count" value="$(arg laser_count)" type="int" />
 
 		<!-- unique params -->
-		<param name="statistic_name" value="random_1000_points" type="str" />
+		<param name="statistic_name" value="key_points_orient" type="str" />
 		<param name="points_amount" value="1000" type="int" />
 	</node>
 </launch>

@@ -373,7 +373,7 @@ if __name__ == '__main__':
 
         # Approximated position
 
-        
+
         # Orientation calculating    
         (orient_deg, orient_rad) = find_orient(hist_orient_current, map_orient_high, hist_limit_orient, best_index_high)
 
